@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Макет для итоговой аттестации на Frontend-разработчике</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+   
+</head>
+
+<body>
+    <div id="app">
+        <header class="header">
+            <img src="/LogoO.png" alt="logo" width="34" height="34">
+            <h1 class="title-logo">Interno</h1>
+            <ul class="menu-list">
+                <li class="menu-list-link">
+                    <a class="link" href="#">Домой</a>
+                </li>
+                <li class="menu-list-link">
+                    <a class="link" href="#">Проект</a>
+                </li>
+                <li class="menu-list-link">
+                    <a class="link" href="#">Блог</a>
+                </li>
+            </ul>
+        </header>
+        <div class="banner">
+            <img class="banner-image" src="/Banner (1).jpg" alt="banner">
+        </div>
+
+        <div class="container">
+            <div class="article">
+                <h1 v-text="mainArticle.title"></h1>
+                <div class="banner-one">
+                    <img class="banner-image-one" :src="mainArticle.image" alt="banner">
+                </div>
+                <div class="paragraph" v-for="paragraph in mainArticle.content" :key="paragraph" v-text="paragraph"></div>
+            </div>
+
+            <div class="tags">
+                <button class="tag-button" v-for="tag in tags" @click="filterArticles(tag)" :key="tag">{{ tag }}</button>
+            </div>
+
+            <div class="article" v-for="article in filteredArticles" :key="article.id">
+                <h1 v-text="article.title"></h1>
+                <div class="banner-one">
+                    <img class="banner-image-one" :src="article.image" alt="banner">
+                </div>
+                <div class="paragraph" v-for="paragraph in article.content" :key="paragraph" v-text="paragraph"></div>
+            </div>
+        </div>
+
+        <footer>
+            <div class="contact-info">
+                55 East Birchwood Ave. Brooklyn, New York 11201<br>
+                contact@interno.com<br>
+                (123) 456-7890
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                mainArticle: {
+                    id: 1,
+                    title: "Создадим лучший макет перепланировки",
+                    image: "/Photo.png",
+                    content: [
+                        "В своей статье от 1994-го года журнал «Before & After» отследил фразу «Lorem ipsum…» до философского трактата Цицерона О пределах добра и зла, написанного в 45 году до нашей эры на латинском языке. В оригинале текст выглядит так «Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit…», и переводится как «Нет никого, кто любил бы свою боль, кто искал бы ее и хотел бы чтобы она была у него. Потому что это боль…»",
+                        "В оригинале текст выглядит так «Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit…», и переводится как «Нет никого, кто любил бы свою боль, кто искал бы ее и хотел бы чтобы она была у него. Потому что это боль…»"
+                    ]
+                },
+                articles: [
+                    {
+                        id: 2,
+                        title: "Design sprints are great",
+                        image: "/Quotes.png",
+                        content: [
+                            "В оригинале текст выглядит так «Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit…», и переводится как «Нет никого, кто любил бы свою боль, кто искал бы ее и хотел бы чтобы она была у него. Потому что это боль…»",
+                            "С того времени этот, похожий на латинский, текст стал стандартом в печатной промышленности для примеров шрифтов и текстов."
+                        ],
+                        tags: ['Архитектура', 'Планировка']
+                    }
+                ],
+                tags: ['Кухня', 'Спальня', 'Здание', 'Архитектура', 'Планировка'],
+                selectedTag: null
+            },
+            computed: {
+                filteredArticles() {
+                    if (!this.selectedTag) {
+                        return this.articles;
+                    }
+                    return this.articles.filter(article => article.tags.includes(this.selectedTag));
+                }
+            },
+            methods: {
+                filterArticles(tag) {
+                    this.selectedTag = tag;
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
